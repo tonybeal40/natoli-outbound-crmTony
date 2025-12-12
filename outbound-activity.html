@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Outbound Activity</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="outbound-activity.html" class="active">Outbound Activity</a>
+    </nav>
+    <h1>Natoli Outbound Activity</h1>
+    <p>Contact capture, send tracking, weekly output, and account rollups for outbound control</p>
+  </header>
+
+  <section class="metrics-grid">
+    <div class="metric-box"><h3>Total Contacts</h3><p id="totalContacts">0</p><small>📁 Stored locally plus Google Sheets</small></div>
+    <div class="metric-box"><h3>Sent Total</h3><p id="sentTotal">0</p><small>✅ <span id="sentProgress">0 of 0</span> completed</small></div>
+    <div class="metric-box"><h3>Added Today</h3><p id="addedToday">0</p><small>🆕 New records</small></div>
+    <div class="metric-box"><h3>Added This Week</h3><p id="addedThisWeek">0</p><small>📆 Monday to Sunday</small></div>
+    <div class="metric-box"><h3>Sent Today</h3><p id="sentToday">0</p><small>✅ Marked sent</small></div>
+    <div class="metric-box"><h3>Sent This Week</h3><p id="sentThisWeek">0</p><small>📈 Weekly output</small></div>
+  </section>
+
+  <section class="form-section">
+    <h2>ADD CONTACT <button onclick="clearForm()">CLEAN DATA</button></h2>
+    <form id="contactForm">
+      <div class="form-group"><input required placeholder="First Name" id="firstName"/></div>
+      <div class="form-group"><input required placeholder="Last Name" id="lastName"/></div>
+      <div class="form-group"><input placeholder="Title" id="title"/></div>
+      <div class="form-group"><input placeholder="Company Name" id="company"/></div>
+      <div class="form-group"><input placeholder="Email" id="email"/></div>
+      <div class="form-group"><input placeholder="Phone" id="phone"/></div>
+      <div class="form-group"><input placeholder="Industry" id="industry"/></div>
+      <div class="form-group"><input placeholder="https://linkedin.com/in/..." id="linkedin"/></div>
+      <div class="form-group"><select id="stage">
+        <option value="New">New</option>
+        <option value="Followed Up">Followed Up</option>
+        <option value="Meeting Set">Meeting Set</option>
+        <option value="Closed Won">Closed Won</option>
+      </select></div>
+      <div class="form-group"><input placeholder="Next Step" id="nextStep"/></div>
+      <div class="form-group full-width"><textarea placeholder="Pain point, angle, context" id="notes"></textarea></div>
+      <div class="form-actions">
+        <button type="submit">Add contact to list</button>
+        <button type="button" onclick="clearAllContacts()">Clear all contacts</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="command-view">
+    <h2>OUTBOUND COMMAND VIEW <button onclick="setWeeklyTarget()">REVENUE CADENCE</button></h2>
+    <div class="tracker">
+      <p><strong>Weekly send target</strong><br/>Week: <span id="weekRange"></span></p>
+      <div class="form-group-inline">
+        <input id="weeklyTarget" placeholder="0" />
+        <button onclick="saveWeeklyTarget()">Save</button>
+      </div>
+      <progress id="weeklyProgressBar" max="100" value="0"></progress>
+      <p><span id="weeklySentCount">0</span> sent this week. Set a target to track pace</p>
+    </div>
+
+    <div class="chart-block">
+      <h3>Weekly activity <small>Legend: 🔴 Added 🟢 Sent</small></h3>
+      <canvas id="weeklyChart"></canvas>
+    </div>
+  </section>
+
+  <section class="company-rollup">
+    <h3>Company Rollup <small>Top accounts by volume, send rate, and last activity. Click a row to filter your list</small></h3>
+    <input id="companySearch" placeholder="Filter rollup by company name" />
+    <select id="companyCount"><option>Top 15</option><option>Top 30</option><option>Top 50</option></select>
+    <table id="rollupTable">
+      <thead>
+        <tr><th>Company</th><th>Contacts</th><th>Sent</th><th>Not Sent</th><th>Send Rate</th><th>Last Activity</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="controls">
+    <h3>IMPORT / EXPORT</h3>
+    <input type="file" id="csvInput" />
+    <button onclick="importCSV()">Import CSV</button>
+    <select id="exportMode">
+      <option value="all">All</option>
+      <option value="sent">Only Sent</option>
+      <option value="notSent">Only Not Sent</option>
+    </select>
+    <button onclick="exportCSV()">Export CSV</button>
+
+    <h3>BACKUP / RESTORE</h3>
+    <button onclick="downloadBackup()">Download JSON backup</button>
+    <input type="file" id="jsonInput" />
+    <button onclick="restoreBackup()">Restore JSON</button>
+  </section>
+
+  <section class="list-controls">
+    <input id="searchInput" placeholder="Search name, company, email" />
+    <select id="stageFilter"><option value="all">All</option></select>
+    <select id="sortOrder">
+      <option value="newest">Newest added</option>
+      <option value="oldest">Oldest added</option>
+      <option value="lastActivity">Last activity</option>
+    </select>
+    <button onclick="toggleList()">Show / hide contact list</button>
+  </section>
+
+  <section class="contact-list hidden" id="contactList">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th><th>Company</th><th>Stage</th><th>Last Activity</th><th>Send</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="contactTableBody"></tbody>
+    </table>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
