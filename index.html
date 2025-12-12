@@ -3,73 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Natoli Outbound Dashboard</title>
+  <title>Natoli Outbound CRM Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <nav class="navbar">
+    <a href="index.html">Dashboard</a>
+    <a href="outbound-activity.html">Outbound Activity</a>
+  </nav>
 
-  <header>
-    <h1>NATOLI OUTBOUND ACTIVITY</h1>
-    <p>Contact capture, send tracking, weekly output, and account rollups for outbound control</p>
-    <a class="tab-button" href="outbound-activity.html">OUTBOUND CRM LITE</a>
+  <header class="header">
+    <h1>Natoli Outbound CRM Dashboard</h1>
+    <p>Overview of outbound performance, syncs with Google Sheets</p>
   </header>
 
   <section class="metrics">
-    <div class="metric-box">
-      <h2>Total Contacts</h2>
-      <p id="totalContacts">0</p>
-      <span class="dot red">•</span> <small>Stored locally plus Google Sheets</small>
+    <div class="card">
+      <h3>Total Contacts</h3>
+      <div id="totalContacts">0</div>
     </div>
-    <div class="metric-box">
-      <h2>Sent Total</h2>
-      <p id="totalSent">0</p>
-      <span class="dot green">•</span> <small><span id="sentCompleted">0</span> of <span id="sentTotal">0</span> completed</small>
+    <div class="card">
+      <h3>Sent Total</h3>
+      <div id="sentTotal">0</div>
     </div>
-    <div class="metric-box">
-      <h2>Added Today</h2>
-      <p id="addedToday">0</p>
-      <span class="dot red">•</span> <small>New records</small>
+    <div class="card">
+      <h3>Added This Week</h3>
+      <div id="addedThisWeek">0</div>
     </div>
-    <div class="metric-box">
-      <h2>Added This Week</h2>
-      <p id="addedThisWeek">0</p>
-      <span class="dot red">•</span> <small>Monday to Sunday</small>
-    </div>
-    <div class="metric-box">
-      <h2>Sent Today</h2>
-      <p id="sentToday">0</p>
-      <span class="dot green">•</span> <small>Marked sent</small>
-    </div>
-    <div class="metric-box">
-      <h2>Sent This Week</h2>
-      <p id="sentThisWeek">0</p>
-      <span class="dot green">•</span> <small>Weekly output</small>
+    <div class="card">
+      <h3>Sent This Week</h3>
+      <div id="sentThisWeek">0</div>
     </div>
   </section>
 
-  <section class="dashboard-right">
-    <div class="command-box">
-      <h3>OUTBOUND COMMAND VIEW</h3>
-      <p>Weekly output, visibility, and account control</p>
-      <div class="target-row">
-        <label for="weeklyTarget">Weekly send target</label>
-        <span id="targetDateRange">Week: Dec 08 to Dec 14</span>
-        <input type="number" id="weeklyTarget" value="0" />
-        <button onclick="saveWeeklyTarget()">Save</button>
-      </div>
-      <progress id="weeklyProgress" value="0" max="100"></progress>
-      <p><span id="sentThisWeekText">0</span> sent this week. Set a target to track pace</p>
-    </div>
-
-    <div class="activity-chart">
-      <h3>Weekly activity</h3>
-      <p>Added vs Sent for the last 8 weeks</p>
-      <canvas id="activityGraph" width="600" height="250"></canvas>
-      <div class="legend"><span class="dot red">•</span> Added <span class="dot green">•</span> Sent</div>
-    </div>
+  <section class="chart">
+    <h2>Weekly Activity</h2>
+    <canvas id="weeklyChart" width="400" height="200"></canvas>
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
